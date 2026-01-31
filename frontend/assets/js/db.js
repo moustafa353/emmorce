@@ -34,10 +34,7 @@ export function seedProducts() {
             const countRequest = store.count();
             countRequest.onsuccess = () => {
                 if (countRequest.result > 0) {
-                    // If already seeded, we can just return.
-                    // However, we must wait for current transaction to complete or abort it 
-                    // to resolve potential locks, though readwrite tx usually commits auto if no requests.
-                    // But since we are inside a readwrite tx and doing nothing, it will succeed.
+                    console.log("Products already seeded.");
                     return;
                 }
 
