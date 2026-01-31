@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/products.css">
+</head>
+
+<body>
+
+<nav>
+  <div class="nav-box">
+    <a href="index.html" class="logo">Fashion</a>
+
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Shop</a></li>
+      <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="page">
+
+<h2>Our Products</h2>
+
+<div class="filters">
+  <select id="cat">
+    <option value="">All</option>
+    <option value="t-shirts">T-Shirts</option>
+    <option value="pants">Pants</option>
+    <option value="watches">Watches</option>
+    <option value="shoes">Shoes</option>
+  </select>
+
+  <select id="sort">
+    <option value="">Sort</option>
+    <option value="low">Price Low</option>
+    <option value="high">Price High</option>
+  </select>
+</div>
+
+<div id="products" class="grid products-grid"></div>
+
+</main>
+
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
