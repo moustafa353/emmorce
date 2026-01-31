@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (menuBtn && navLinks) menuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
 });
 
-// --- Event Handlers ---
 
 async function handleCheckout(e) {
     e.preventDefault();
@@ -38,10 +37,6 @@ async function handleCheckout(e) {
             alert('Your cart is empty');
             return;
         }
-        // Save minimal cart info for checkout if needed, or rely on db
-        // For checkout.js which reads from localStorage 'checkoutItems'?
-        // The Checkout.js in Step 73 reads 'checkoutItems' from localStorage.
-        // So we need to populate it!
         localStorage.setItem('checkoutItems', JSON.stringify(items));
         window.location.href = 'checkout.html';
     } catch (error) {
@@ -84,13 +79,11 @@ async function handleSignupForm(e) {
     }
 }
 
-// --- Slider Stubs (to prevent ReferenceError if elements exist) ---
 async function loadProductSlider() {
     console.warn('Product slider not implemented');
 }
 
 function initSliderControls() {
-    // Stub
 }
 
 async function populateColorFilter() {
@@ -163,7 +156,6 @@ async function loadProducts(category, color, sortBy, searchQuery) {
 
     productGrids.forEach(grid => {
         grid.innerHTML = html;
-        // Attach event listeners to new buttons
         grid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 e.preventDefault();

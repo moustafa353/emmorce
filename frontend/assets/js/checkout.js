@@ -37,7 +37,6 @@ function renderOrderSummary() {
         li.style.justifyContent = "space-between";
         li.style.marginBottom = "10px";
 
-        // Item Info Container
         const infoDiv = document.createElement("div");
         infoDiv.style.display = "flex";
         infoDiv.style.alignItems = "center";
@@ -56,7 +55,6 @@ function renderOrderSummary() {
         infoDiv.appendChild(img);
         infoDiv.appendChild(span);
 
-        // Price
         const priceB = document.createElement("b");
         const itemTotal = item.price * item.quantity;
         priceB.textContent = `$${itemTotal.toFixed(2)}`;
@@ -75,7 +73,6 @@ function initMap() {
     const mapContainer = document.getElementById('map');
     if (!mapContainer) return;
 
-    // Use default Cairo coords if no location selected yet
     const defaultCoords = [30.0444, 31.2357];
     map = L.map('map').setView(defaultCoords, 6);
 

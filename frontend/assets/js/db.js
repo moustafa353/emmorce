@@ -27,15 +27,13 @@ export function seedProducts() {
 
             tx.oncomplete = () => resolve();
             tx.onerror = (e) => {
-                console.error("Seeding transaction failed:", e.target.error);
                 reject(e.target.error);
             };
 
             const countRequest = store.count();
             countRequest.onsuccess = () => {
                 if (countRequest.result > 0) {
-                    console.log("Products already seeded.");
-                    return;
+                        return;
                 }
 
                 const sampleProducts = [
@@ -48,11 +46,9 @@ export function seedProducts() {
                 sampleProducts.forEach(p => store.add(p));
             };
             countRequest.onerror = (e) => {
-                console.error("Count request failed", e);
                 reject(e.target.error);
             };
         } catch (err) {
-            console.error("Seeding error:", err);
             reject(err);
         }
     });

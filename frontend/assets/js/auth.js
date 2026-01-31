@@ -34,7 +34,6 @@ export async function login(email, password) {
         req.onsuccess = () => {
             const users = req.result;
 
-            // Priority check for hardcoded users
             if (email === 'admin@demo.com' && password === 'admin123') {
                 foundUser = { id: 1, name: 'Admin User', email, role: 'admin' };
             } else if (email === 'user@demo.com' && password === 'user123') {
@@ -43,13 +42,6 @@ export async function login(email, password) {
                 foundUser = users.find(u => u.email === email && u.password === password);
             }
             if (!foundUser) {
-                // We don't reject here, we just let result be null and reject manually if desired, 
-                // or simpler: we can abort the transaction or just resolve(null) and handle it?
-                // Original code rejected. To reject from within onsuccess for a transaction, 
-                // we can abort the tx with a custom error, or just reject the promise directly 
-                // BUT we must be careful about the oncomplete listener.
-                // A cleaner way for 'logical' failure (not DB failure) is to just let tx complete 
-                // and check result, OR reject explicitly and ensure we don't resolve later.
             }
         };
     }).then(user => {
@@ -72,16 +64,12 @@ export async function register(name, email, password) {
         req.onsuccess = () => {
             const users = req.result;
             if (users.find(u => u.email === email)) {
-                // Logic error, not DB error. 
-                // We can't "return reject()" easily because oncomplete will fire.
-                // We should abort the transaction.
                 tx.abort();
                 return reject(new Error('Email already exists'));
             }
             const id = Date.now();
             newUser = { id, name, email, password, role: 'user' };
             store.add(newUser);
-            // newUser is set, will be returned in oncomplete
         };
     });
 }

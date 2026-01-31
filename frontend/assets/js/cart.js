@@ -51,15 +51,10 @@ export async function getCartItems() {
         const tx = db.transaction('cart', 'readonly');
         const store = tx.objectStore('cart');
 
-        tx.oncomplete = () => resolve(); // oncomplete doesn't give results for getAll, need req.onsuccess
         tx.onerror = () => reject(tx.error);
 
         const req = store.getAll();
         req.onsuccess = () => {
-            // tx.oncomplete will fire after this
-            // But we can resolve here? 
-            // Actually promise resolves once. 
-            // Best pattern for read:
             const items = req.result.filter(i => i.userId === getUserId());
             resolve(items);
         };
