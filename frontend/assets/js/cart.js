@@ -1,8 +1,9 @@
 import { openDB } from './db.js';
 import { getProductById } from './products.js';
+import { getCurrentUser } from './auth.js';
 
 const getUserId = () => {
-    const user = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser'));
+    const user = getCurrentUser();
     return user ? user.id : 'guest';
 };
 

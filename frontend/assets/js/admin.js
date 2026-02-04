@@ -1,8 +1,8 @@
 import { saveProduct, deleteProduct, getProducts } from './products.js';
 import { openDB, seedProducts } from './db.js';
+import { requireRole } from './auth.js';
 
-const currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser'));
-if (!currentUser || currentUser.role !== 'admin') { window.location.href = 'login.html'; throw new Error('Not authenticated as admin'); }
+requireRole('admin');
 
 const tabs = document.querySelectorAll('.nav-item');
 const tabSections = document.querySelectorAll('.tab');

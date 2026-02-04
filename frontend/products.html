@@ -28,20 +28,24 @@
 <h2>Our Products</h2>
 
 <div class="filters">
-  <select id="cat">
-    <option value="">All</option>
-    <option value="t-shirts">T-Shirts</option>
+  <select id="category-filter">
+    <option value="">All Categories</option>
+    <option value="">T-Shirts</option>
     <option value="pants">Pants</option>
     <option value="watches">Watches</option>
     <option value="shoes">Shoes</option>
   </select>
 
-  <select id="sort">
-    <option value="">Sort</option>
-    <option value="low">Price Low</option>
-    <option value="high">Price High</option>
+ 
+
+  <select id="sort-by">
+    <option value="">Sort By</option>
+    <option value="price-asc">Price: Low to High</option>
+    <option value="price-desc">Price: High to Low</option>
+    <option value="name-asc">Name: A to Z</option>
+    <option value="name-desc">Name: Z to A</option>
   </select>
-</div>
+
 
 <div id="products" class="grid products-grid"></div>
 

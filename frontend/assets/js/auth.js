@@ -1,7 +1,7 @@
 import { openDB } from './db.js';
 
 export function initAuth() {
-    const user = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser'));
+    const user = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || 'null');
     updateAuthUI(user);
 }
 
@@ -35,13 +35,14 @@ export async function login(email, password) {
             const users = req.result;
 
             if (email === 'admin@demo.com' && password === 'admin123') {
-                foundUser = { id: 1, name: 'Admin User', email, role: 'admin' };
+                foundUser = { id: 1, name: 'admin', email, role: 'admin' };
             } else if (email === 'user@demo.com' && password === 'user123') {
                 foundUser = { id: 2, name: 'Demo User', email, role: 'user' };
             } else {
                 foundUser = users.find(u => u.email === email && u.password === password);
             }
             if (!foundUser) {
+                console.error('User not found');
             }
         };
     }).then(user => {
@@ -72,4 +73,28 @@ export async function register(name, email, password) {
             store.add(newUser);
         };
     });
+}
+
+export function getCurrentUser() {
+    const storedUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+    console.log('Stored user data:', storedUser);
+    const user = storedUser ? JSON.parse(storedUser) : null;
+    console.log('Parsed user:', user);
+    return user;
+}
+
+export function hasRole(requiredRole) {
+    const user = getCurrentUser();
+    console.log('Checking role:', requiredRole, 'User role:', user?.role);
+    return user && user.role === requiredRole;
+}
+
+export function requireRole(role) {
+    console.log('Requiring role:', role);
+    if (!hasRole(role)) {
+        console.log('Access denied, redirecting to login');
+        window.location.href = 'login.html';
+        throw new Error(`Access denied. ${role} role required.`);
+    }
+    console.log('Role check passed');
 }

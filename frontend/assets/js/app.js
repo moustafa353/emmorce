@@ -1,11 +1,11 @@
-import { updateAuthUI, initAuth, login, register } from './auth.js';
-import { getProducts, getProductById } from './products.js';
+import { updateAuthUI, initAuth, login, register, getCurrentUser } from './auth.js';
+import { getProducts } from './products.js';
 import { addToCart, updateCartCount, getCartItems, updateCartQuantity, removeFromCart } from './cart.js';
 import { seedProducts } from './db.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     initAuth();
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser'));
+    const currentUser = getCurrentUser();
     updateAuthUI(currentUser);
     await seedProducts();
     await updateCartCount();
@@ -52,10 +52,17 @@ async function handleLoginForm(e) {
 
     try {
         const user = await login(email, password);
-        if (user && user.role === 'admin') {
-            window.location.href = 'admin.html';
-        } else {
-            window.location.href = 'index.html';
+        if (user) {
+            console.log('Login successful, storing user:', user);
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            console.log('User stored in localStorage');
+            if (user.role === 'admin') {
+                console.log('Redirecting to admin page');
+                window.location.href = 'admin.html';
+            } else {
+                console.log('Redirecting to index page');
+                window.location.href = 'index.html';
+            }
         }
     } catch (error) {
         console.error(error);
