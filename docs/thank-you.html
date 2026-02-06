@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,23 +15,28 @@
             padding: 20px;
             text-align: center;
         }
+
         .order-summary {
             text-align: left;
             margin-top: 30px;
         }
+
         .order-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
         }
+
         .order-item img {
             width: 50px;
             margin-right: 10px;
         }
+
         .order-details {
             margin-top: 20px;
             text-align: left;
         }
+
         .btn-home {
             margin-top: 30px;
             display: inline-block;
@@ -42,13 +48,18 @@
         }
     </style>
 </head>
+
 <body>
     <nav>
         <div class="container nav-container">
             <a href="index.html" class="logo">FASHION</a>
+            <button class="mobile-menu-btn" id="menu-btn">
+                <i class="ri-menu-line"></i>
+            </button>
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
             </ul>
         </div>
     </nav>
@@ -76,7 +87,7 @@
                 return;
             }
 
-          
+
             currentOrder.items.forEach(item => {
                 const div = document.createElement("div");
                 div.className = "order-item";
@@ -104,4 +115,5 @@
         });
     </script>
 </body>
+
 </html>
