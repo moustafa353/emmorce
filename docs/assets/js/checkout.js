@@ -1,4 +1,6 @@
 
+import { openDB, saveOrder } from './db.js';
+
 let selectedLocation = null;
 let map, marker;
 let checkoutItems = [];
@@ -167,9 +169,22 @@ async function handleOrderSubmit(e) {
             date: new Date().toISOString()
         };
 
-        sessionStorage.setItem("currentOrder", JSON.stringify(orderData));
-        localStorage.removeItem("checkoutItems");
-        window.location.href = "thank-you.html";
+        try {
+            // Save order to IndexedDB
+            const orderId = await saveOrder(orderData);
+            
+            // Store current order in sessionStorage for thank-you page
+            sessionStorage.setItem("currentOrder", JSON.stringify(orderData));
+            localStorage.removeItem("checkoutItems");
+            window.location.href = "thank-you.html";
+        } catch (error) {
+            console.error('Error saving order:', error);
+            alert('Error saving order: ' + error.message);
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        }
 
     } catch (error) {
         console.error('Order error:', error);

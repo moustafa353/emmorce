@@ -52,14 +52,10 @@ async function handleLoginForm(e) {
     try {
         const user = await login(email, password);
         if (user) {
-            console.log('Login successful, storing user:', user);
             localStorage.setItem('currentUser', JSON.stringify(user));
-            console.log('User stored in localStorage');
             if (user.role === 'admin') {
-                console.log('Redirecting to admin page');
                 window.location.href = 'admin.html';
             } else {
-                console.log('Redirecting to index page');
                 window.location.href = 'index.html';
             }
         }

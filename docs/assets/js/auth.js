@@ -9,6 +9,7 @@ export function updateAuthUI(user) {
     const loginBtn = document.querySelector('.login-btn');
     const logoutBtn = document.querySelector('.logout-btn');
     const welcome = document.querySelector('.welcome-user');
+    const logoutBtns = document.querySelectorAll('.logout-btn');
 
     logoutBtn?.addEventListener('click', () => {
         logout();
@@ -16,7 +17,7 @@ export function updateAuthUI(user) {
 
     if (user) {
         loginBtn?.classList.add('hidden');
-        logoutBtn?.classList.remove('hidden');
+        logoutBtns?.forEach(btn => btn.classList.remove('hidden'));
         if (welcome) welcome.textContent = `Hello, ${user.name}`;
     } else {
         loginBtn?.classList.remove('hidden');
@@ -88,24 +89,18 @@ export function logout() {
 
 export function getCurrentUser() {
     const storedUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
-    console.log('Stored user data:', storedUser);
     const user = storedUser ? JSON.parse(storedUser) : null;
-    console.log('Parsed user:', user);
     return user;
 }
 
 export function hasRole(requiredRole) {
     const user = getCurrentUser();
-    console.log('Checking role:', requiredRole, 'User role:', user?.role);
     return user && user.role === requiredRole;
 }
 
 export function requireRole(role) {
-    console.log('Requiring role:', role);
     if (!hasRole(role)) {
-        console.log('Access denied, redirecting to login');
         window.location.href = 'login.html';
         throw new Error(`Access denied. ${role} role required.`);
     }
-    console.log('Role check passed');
 }

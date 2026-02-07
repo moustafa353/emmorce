@@ -11,10 +11,29 @@ export function openDB() {
             if (!db.objectStoreNames.contains('products')) db.createObjectStore('products', { keyPath: 'id' });
             if (!db.objectStoreNames.contains('users')) db.createObjectStore('users', { keyPath: 'id' });
             if (!db.objectStoreNames.contains('cart')) db.createObjectStore('cart', { keyPath: 'id', autoIncrement: true });
-            if (!db.objectStoreNames.contains('orders')) db.createObjectStore('orders', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('orders')) db.createObjectStore('orders', { autoIncrement: true });
         };
         request.onsuccess = (e) => { db = e.target.result; resolve(db); };
         request.onerror = (e) => reject(e.target.error);
+    });
+}
+
+export function saveOrder(orderData) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const db = await openDB();
+            const tx = db.transaction('orders', 'readwrite');
+            const store = tx.objectStore('orders');
+            const req = store.add(orderData);
+            
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = (e) => reject(e.target.error);
+            
+            tx.oncomplete = () => {};
+            tx.onerror = (e) => reject(e.target.error);
+        } catch (error) {
+            reject(error);
+        }
     });
 }
 
